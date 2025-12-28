@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+
+/* Paksa tailwind tidak mengikuti tema system windows (dark/light) nich */
+:root {
+    color-scheme: light !important;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: light !important;
+    }
+  }
+
+/* semibold */
+@font-face {
+    font-family: "Integral";
+    src: url("/fonts/integral/Integral-semibold.otf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  body {
+    font-family: "Integral", sans-serif;
+  }
+
+
+  .text-renggang {
+    line-height: 1.0;
+  }
+
+  .rata-kanan {
+    text-align: right;
+  }
+
+
+.rata-kiri{
+  text-align: left;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}

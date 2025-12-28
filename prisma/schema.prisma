@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum GuitarCategory {
+  ACOUSTIC
+  ELECTRIC
+  BASS
+  CLASSIC
+  UKULELE
+  ACOUSTIC_ELECTRIC
+}
+
+model Product {
+  id_product    Int            @id @default(autoincrement())
+  product_name  String
+  product_price Int
+  Category      GuitarCategory @map("Category")
+  description   String?
+  image         String?
+  createdAt     DateTime       @default(now()) @map("createdAt")
+  
+  @@map("Product")
+}
+
+enum AksesorisCategory {
+  STRINGS
+  PICK
+  CAPO
+  TUNER
+  CASE
+  STRAP
+  CABLE
+  AMPLIFIER
+}
+
+model Aksesoris {
+  id_aksesoris    Int              @id @default(autoincrement())
+  product_name    String
+  product_price  Int
+  Category        AksesorisCategory @map("Category")
+  description     String?
+  image           String?
+  createdAt       DateTime         @default(now()) @map("createdAt")
+  
+  @@map("Aksesoris")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model User {
+  id_user   Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  role      UserRole @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum TransactionStatus {
+  PENDING
+  PAID
+  FAILED
+  EXPIRED
+}
+
+model Order {
+  id                Int              @id @default(autoincrement())
+  order_id          String           @unique
+  gross_amount      Int
+  transaction_status TransactionStatus @default(PENDING)
+  payment_type      String?
+  fraud_status      String?
+  paid_at           DateTime?
+  recipient_name    String
+  recipient_phone   String
+  shipping_address  String
+  payment_method    String
+  items             Json // Store order items as JSON
+  subtotal          Int
+  shipping_cost     Int
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  @@map("Order")
+}
